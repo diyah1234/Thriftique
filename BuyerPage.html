@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thriftique Buyer Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap">
+</head>
+
+<body>
+    <header>
+        <h1>Buyer Dashboard</h1>
+        <!-- Add navigation links as needed -->
+    </header>
+    <nav id="buyer-nav">
+    <button id="productsBtn">Products</button>
+    <button id="cartBtn">Cart</button>
+    </nav>
+    <div id="productsContainer" style="display: none;">
+        <div class="card">
+            <img src="Product.jpg" alt="Product Image">
+            <h3>Top</h3>
+            <p>Plain black short sleeve crop top</p>
+            <p>$19.99</p>
+            <button class="bidBtn">Bid</button>
+            <button class="cartBtn">Add to Cart</button>
+        </div>
+    </div>
+
+    <div id="productDetails" style="display: none;">
+        <div class="fullScreen">
+            <img src="Product.jpeg" alt="Product Image">
+            <h3>Product Title</h3>
+            <p>Description of the product.</p>
+            <p>$19.99</p>
+            <button class="bidBtn">Bid</button>
+            <button class="cartBtn">Add to Cart</button>
+        </div>
+    </div>
+
+    <div id="cartContainer" style="display: none;">
+        <p>Products you have added to cart will apperar here</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

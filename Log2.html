@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login and Signup Page</title>
+    <style>
+        body {
+            font-family: 'cursive', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            background-image: url('bg_login.jpg');
+        }
+
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            color: #333;
+            font-size: 28px;
+        }
+
+        .login-form,
+        .signup-form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-group button:hover {
+            background-color: #45a049;
+        }
+
+        .tab-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .tab {
+            display: inline-block;
+            padding: 10px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .tab.active {
+            background-color: #4caf50;
+            color: #fff;
+        }
+
+        /* Additional styles for signup form */
+        .signup-form {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>Login or Sign Up</h2>
+    
+    <div class="tab-container">
+        <div class="tab active" onclick="showForm('login')">Login</div>
+        <div class="tab" onclick="showForm('signup')">Sign Up</div>
+    </div>
+
+    <!-- Login Form -->
+    <div class="login-form">
+        <form action="login_script.php" method="post">
+            <div class="form-group">
+                <label for="login_username">Username:</label>
+                <input type="text" id="login_username" name="login_username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="login_password">Password:</label>
+                <input type="password" id="login_password" name="login_password" required>
+            </div>
+
+            <div class="form-group">
+                <button type="submit">Login</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Signup Form -->
+    <div class="signup-form">
+        <form action="signup_script.php" method="post">
+            <div class="form-group">
+                <label for="signup_email">Email:</label>
+                <input type="email" id="signup_email" name="signup_email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="signup_phone">Phone Number:</label>
+                <input type="tel" id="signup_phone" name="signup_phone" required>
+            </div>
+
+            <div class="form-group">
+                <label for="signup_name">Name:</label>
+                <input type="text" id="signup_name" name="signup_name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="signup_password">Password:</label>
+                <input type="password" id="signup_password" name="signup_password" required>
+            </div>
+
+            <div class="form-group">
+                <button type="submit">Sign Up</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<script>
+    function showForm(formType) {
+        // Hide all forms
+        document.querySelector('.login-form').style.display = 'none';
+        document.querySelector('.signup-form').style.display = 'none';
+
+        // Show the selected form
+        document.querySelector(`.${formType}-form`).style.display = 'block';
+
+        // Activate the corresponding tab
+        document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+        document.querySelector(`.tab.${formType}`).classList.add('active');
+    }
+</script>
+
+</body>
+</html>
