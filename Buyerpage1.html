@@ -1,0 +1,328 @@
+<!-- Add this script tag to the head of your HTML file -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let highestBid = 0;  // Variable to store the highest bid
+
+        const bidBtns = document.querySelectorAll('.bidBtn');
+
+        bidBtns.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const productId = btn.parentElement.querySelector('h3').textContent;
+                const newBid = parseFloat(prompt(`Enter your bid for ${productId}:`));
+
+                if (!isNaN(newBid)) {
+                    if (newBid > highestBid) {
+                        highestBid = newBid;  // Update the highest bid
+                        updateHighestBidUI();  // Update the UI with the new highest bid
+                        // Send the bid to the server
+                        fetch('http://localhost:5000/api/bid', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ newBid }),
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    alert(data.message);
+                                } else {
+                                    alert(`Error: ${data.message}`);
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
+                    } else {
+                        alert('Bid must be higher than the current highest bid.');
+                    }
+                } else {
+                    alert('Invalid bid value. Please enter a number.');
+                }
+            });
+        });
+
+        // Function to update the UI with the highest bid
+        function updateHighestBidUI() {
+            const highestBidElement = document.getElementById('highestBid');
+            highestBidElement.textContent = `$${highestBid.toFixed(2)}`;
+        }
+    });
+</script>
+
+<!-- Add this script tag after your existing script -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Your existing code
+
+        const bidBtns = document.querySelectorAll('.bidBtn');
+        const productsContainer = document.getElementById('productsContainer');
+        const productDetailsContainer = document.getElementById('productDetails');
+
+        bidBtns.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                // Show product details container and hide products container
+                productsContainer.style.display = 'none';
+                productDetailsContainer.style.display = 'block';
+
+                // Get product details based on the clicked button
+                const productId = btn.parentElement.querySelector('h3').textContent;
+                const productDetails = getProductDetails(productId);
+
+                // Update the product details container with the information
+                const productDetailsElement = productDetailsContainer.querySelector('.fullScreen');
+                document.getElementById('productDetailsImage').src = productDetails.image;
+                document.getElementById('productDetailsName').textContent = productDetails.name;
+                document.getElementById('productDetailsDescription').textContent = productDetails.description;
+                document.getElementById('productDetailsSize').textContent = productDetails.size;
+                document.getElementById('productDetailsPrice').textContent = `$${productDetails.price.toFixed(2)}`;
+                document.getElementById('productDetailsSeller').textContent = productDetails.seller;
+                document.getElementById('highestBid').textContent = `$${highestBid.toFixed(2)}`;
+
+                // Calculate and display time left
+                displayTimeLeft(productDetails.endTime);
+
+                // Add event listener for the back button
+                const backBtn = productDetailsContainer.querySelector('#backBtn');
+                backBtn.addEventListener('click', () => {
+                    // Show products container and hide product details container
+                    productsContainer.style.display = 'block';
+                    productDetailsContainer.style.display = 'none';
+                });
+
+            });
+        });
+    });
+
+    // Function to get product details based on the product ID
+    function getProductDetails(productId) {
+        // Replace this with your logic to fetch product details from your data source
+        // Example data for demonstration purposes
+        if (productId === "Black Top") {
+            return {
+                name: "Black Top",
+                description: "Cotton blend short sleeve crop t shirt",
+                size: "S",
+                price: 19.99,
+                seller: "xyz",
+                image: "Product.jpg",
+                endTime: new Date().getTime() + (24 * 60 * 60 * 1000) // 24 hours from now
+            };
+        } else if (productId === "Mesh Black Top") {
+            return {
+                name: "Mesh Black Top",
+                description: "Square neck bell sleeve asymmetrical sheer mesh black crop top",
+                size: "S",
+                price: 20.00,
+                seller: "xyz",
+                image: "blackbat.jpg",
+                endTime: new Date().getTime() + (24 * 60 * 60 * 1000) // 24 hours from now
+            };
+        } else {
+            // Add more conditions as needed
+        }
+    }
+
+    // Function to display time left
+    function displayTimeLeft(endTime) {
+        const timerElement = document.getElementById('timer');
+        const timerInterval = setInterval(() => {
+            const currentTime = new Date().getTime();
+            const timeLeft = endTime - currentTime;
+
+            if (timeLeft > 0) {
+                const hoursLeft = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const secondsLeft = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                timerElement.textContent = `${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`;
+            } else {
+                clearInterval(timerInterval);
+                timerElement.textContent = "Expired";
+            }
+        }, 1000);
+    }
+</script>
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thriftique Buyer Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap">
+    <!-- Add your script tag here if needed -->
+</head>
+
+<body style="background-color: #f0f0f0; background-image: url('bg_login.jpg'); background-size: cover; background-position: center;">
+
+    <header>
+        <h1>Buyer Dashboard</h1>
+        <!-- Add navigation links as needed -->
+    </header>
+    <nav id="buyer-nav">
+        <button id="productsBtn">Products</button>
+        <button id="cartBtn">Cart</button>
+    </nav>
+    <div id="productsContainer" style="display: none;">
+        <div class="card">
+            <img src="Product.jpg" alt="Product Image">
+            <h3>Black Top</h3>
+	    <p>Cotton blend short sleeve crop t shirt</p>
+            <p>Size:S</p>
+            <p>$19.99</p>
+            <p id="timer">Bidding Time Left: 24h 0m 0s</p>s
+            <p>Seller: xyz</p>
+            <button class="bidBtn">Bid</button>
+            <button class="cartBtn">Add to Cart</button>
+        </div>
+	<div class="card">
+            <img src="brownpant.jpg" alt="Product Image">
+            <h3>Brown Cargo Pant</h3>
+	    <p>These are brown cargo pants</p>
+            <p>Size:S</p>
+            <p>$30.00</p>
+            <p id="timer">Bidding Time Left: 24h 0m 0s</p>
+            <p>Seller: xyz</p>
+            <button class="bidBtn">Bid</button>
+            <button class="cartBtn">Add to Cart</button>
+        </div>
+	 <div class="card">
+            <img src="blackbat.jpg" alt="Product Image">
+            <h3>Mesh Black Top</h3>
+	    <p>Sqaure neck bell sleeve asymmetrical sheer mesh black crop top</p>
+            <p>Size:S</p>
+            <p>$20.00</p>
+            <p id="timer">Bidding Time Left: 24h 0m 0s</p>
+            <p>Seller: xyz</p>
+            <button class="bidBtn">Bid</button>
+            <button class="cartBtn">Add to Cart</button>
+        </div>
+
+    </div>
+
+    <div id="productDetails" style="display: none;">
+    <div class="fullScreen">
+        <button id="backBtn">Back</button>
+        <img id="productDetailsImage" src="" alt="Product Image">
+        <h3 id="productDetailsName"></h3>
+        <p id="productDetailsDescription"></p>
+        <p>Size: <span id="productDetailsSize"></span></p>
+        
+        <p>Seller: <span id="productDetailsSeller"></span></p>
+        <p>Highest Bid: <span id="highestBid">$0.00</span></p>
+        <p id="timer">Bidding Time Left: 24h 0m 0s</p>
+        
+        <button class="bidBtn">Bid</button>
+        <button class="cartBtn">Add to Cart</button>
+    </div>
+</div>
+
+    <div id="cartContainer" style="display: none;">
+         <div class="card">
+            <img src="pinktop.jpg" alt="Product Image">
+            <h3>Pink Ruffle Top</h3>
+ 	    <p>Cropped vest ruffle top in hot pink</p>
+            <p>Size:S</p>
+            <p>$15</p>
+            <p id="timer">Bidding Time Left: 24h 0m 0s</p>
+            <p>Seller: xyz</p>
+            <button class="bidBtn">Bid</button>
+         </div>
+
+        
+    </div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Your existing code
+
+        const bidBtns = document.querySelectorAll('.bidBtn');
+        const productsContainer = document.getElementById('productsContainer');
+        const productDetailsContainer = document.getElementById('productDetails');
+
+        bidBtns.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                // Show product details container and hide products container
+                productsContainer.style.display = 'none';
+                productDetailsContainer.style.display = 'block';
+
+                // Get product details based on the clicked button
+                const productId = btn.parentElement.querySelector('h3').textContent;
+                const productDetails = getProductDetails(productId);
+
+                // Update the product details container with the information
+                const productDetailsElement = productDetailsContainer.querySelector('.fullScreen');
+                document.getElementById('productDetailsImage').src = productDetails.image;
+                document.getElementById('productDetailsName').textContent = productDetails.name;
+                document.getElementById('productDetailsDescription').textContent = productDetails.description;
+                document.getElementById('productDetailsSize').textContent = productDetails.size;
+                document.getElementById('productDetailsPrice').textContent = `$${productDetails.price.toFixed(2)}`;
+                document.getElementById('productDetailsSeller').textContent = productDetails.seller;
+                document.getElementById('highestBid').textContent = `$${highestBid.toFixed(2)}`;
+
+                // Add event listener for the back button
+                const backBtn = productDetailsContainer.querySelector('#backBtn');
+                backBtn.addEventListener('click', () => {
+                    // Show products container and hide product details container
+                    productsContainer.style.display = 'block';
+                    productDetailsContainer.style.display = 'none';
+                });
+
+            });
+        });
+    });
+
+    // Function to get product details based on the product ID
+    function getProductDetails(productId) {
+        // Replace this with your logic to fetch product details from your data source
+        // Example data for demonstration purposes
+        if (productId === "Black Top") {
+            return {
+                name: "Black Top",
+                description: "Cotton blend short sleeve crop t shirt",
+                size: "S",
+                price: 19.99,
+                <p id="timer"></p>
+                seller: "xyz",
+                image: "Product.jpg",
+            };
+        } else if (productId === "Mesh Black Top") {
+            return {
+                name: "Mesh Black Top",
+                description: "Square neck bell sleeve asymmetrical sheer mesh black crop top",
+                size: "S",
+                price: 20.00,
+                <p id="timer"></p>
+                seller: "xyz",
+                image: "blackbat.jpg",
+            };
+        } else {
+            // Add more conditions as needed
+        }
+    }
+</script>
+<!-- Your existing code -->
+
+<!-- Add the Checkout button -->
+<button id="checkoutBtn">Log Out</button>
+
+<!-- Add the script for the Checkout button -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const checkoutBtn = document.getElementById('checkoutBtn');
+
+        checkoutBtn.addEventListener('click', () => {
+            // Redirect to the checkout page
+            window.location.href = 'Log2.html';
+        });
+    });
+</script>
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>

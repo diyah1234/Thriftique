@@ -1,0 +1,122 @@
+body {
+    font-family: 'Comic Sans MS', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-size: cover;
+    background-position: center;
+    background-image: url('bg_login.jpg');
+}
+
+header {
+    background-color: #023020;
+    color: white;
+    text-align: center;
+    padding: 1em;
+    font-family: 'Comic Sans MS', cursive;
+}
+
+nav {
+    text-align: center;
+    margin: 20px 0;
+}
+
+button {
+    margin: 0 10px;
+}
+
+#productsBtn {
+    background-color: mediumseagreen;
+    }
+
+#cartBtn {
+    background-color: mediumseagreen;
+    }
+
+
+/* Make Add Item, Existing Items, and Selling History buttons green */
+#seller-nav button {
+    background-color: #006400;
+    color: white;
+}
+
+.dashboard-section {
+    display: none;
+}
+
+#seller-nav {
+    margin-bottom: 50px;
+}
+
+#add-item-section,
+#existing-items-section,
+#selling-history-section {
+    display: none;
+    text-align: left;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+#add-item-form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+#add-item-form label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+#add-item-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 12px;
+}
+
+#add-item-form button {
+    background-color: #006400;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* Adjust the size of Add New Item section */
+#add-item-section {
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+/* For Buyer Page */
+.card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    width: 200px;
+    display: inline-block;
+}
+
+.fullScreen {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 9999;
+}
+
+img {
+    width: 200px;
+    height: 200px;
+}
+
+#cartContainer {
+    display: none;
+    text-align: left;
+}
+

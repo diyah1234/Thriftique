@@ -1,0 +1,288 @@
+<!-- Add this script tag to the head of your HTML file -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Sample data for existing items (replace with your actual data)
+        const existingItemsData = [
+            { imageSrc: 'pinktop.jpg', currentPrice: 15.00, biddingTime: 15 }, // Bidding time in hours
+            { imageSrc: 'blackbat.jpg', currentPrice: 20.00, biddingTime: 10 }, // Increased to 10 hours
+            // Add more items as needed
+        ];
+
+        const sellingHistoryData = [
+            { imageSrc: 'blackdress.jpg', priceSold: 25.00, profit: 10.00 },
+            { imageSrc: 'whitedress.jpg', priceSold: 30.00, profit: 15.00 },
+            { imageSrc: 'whitetop.jpg', priceSold: 10.00, profit: 5.00 },
+            { imageSrc: 'browntop.jpg', priceSold: 12.00, profit: 15.00 },
+            // Add more items as needed
+        ];
+
+        // Function to display existing items
+        function showExistingItems() {
+            const existingItemsSection = document.getElementById('existing-items-section');
+            existingItemsSection.innerHTML = ''; // Clear existing content
+
+            existingItemsData.forEach((item) => {
+                // Create a container for each item
+                const itemContainer = document.createElement('div');
+                itemContainer.classList.add('existing-item');
+
+                // Create an image element
+                const imgElement = document.createElement('img');
+                imgElement.src = item.imageSrc;
+                imgElement.alt = 'Item Image';
+
+                // Create a paragraph element for the current price
+                const currentPriceElement = document.createElement('p');
+                currentPriceElement.textContent = `Current Price: $${item.currentPrice.toFixed(2)}`;
+
+                // Create a paragraph element for the bidding time left
+                const biddingTimeLeftElement = document.createElement('p');
+                const biddingEndTime = new Date().getTime() + item.biddingTime * 60 * 60 * 1000; // Convert hours to milliseconds
+                updateBiddingTimeLeft(biddingEndTime, biddingTimeLeftElement);
+                setInterval(() => updateBiddingTimeLeft(biddingEndTime, biddingTimeLeftElement), 1000);
+
+                // Append elements to the item container
+                itemContainer.appendChild(imgElement);
+                itemContainer.appendChild(currentPriceElement);
+                itemContainer.appendChild(biddingTimeLeftElement);
+
+                // Append the item container to the existing items section
+                existingItemsSection.appendChild(itemContainer);
+            });
+        }
+
+        // Function to update the bidding time left
+        function updateBiddingTimeLeft(endTime, element) {
+            const currentTime = new Date().getTime();
+            const remainingTime = Math.max(0, endTime - currentTime);
+
+            const hours = Math.floor(remainingTime / (60 * 60 * 1000));
+            const minutes = Math.floor((remainingTime % (60 * 60 * 1000)) / (60 * 1000));
+            const seconds = Math.floor((remainingTime % (60 * 1000)) / 1000);
+
+            element.textContent = `Bidding Time Left: ${hours}h ${minutes}m ${seconds}s`;
+        }
+
+        // Function to display selling history
+        function showSellingHistory() {
+            const sellingHistorySection = document.getElementById('selling-history-section');
+            sellingHistorySection.innerHTML = ''; // Clear existing content
+
+            sellingHistoryData.forEach((item) => {
+                // Create a container for each sold item
+                const soldItemContainer = document.createElement('div');
+                soldItemContainer.classList.add('sold-item');
+
+                // Create an image element
+                const soldImgElement = document.createElement('img');
+                soldImgElement.src = item.imageSrc;
+                soldImgElement.alt = 'Sold Item Image';
+
+                // Create paragraph elements for price sold and profit
+                const priceSoldElement = document.createElement('p');
+                priceSoldElement.textContent = `Price Sold: $${item.priceSold.toFixed(2)}`;
+
+                const profitElement = document.createElement('p');
+                profitElement.textContent = `Profit: $${item.profit.toFixed(2)}`;
+
+                // Append elements to the sold item container
+                soldItemContainer.appendChild(soldImgElement);
+                soldItemContainer.appendChild(priceSoldElement);
+                soldItemContainer.appendChild(profitElement);
+
+                // Append the sold item container to the selling history section
+                sellingHistorySection.appendChild(soldItemContainer);
+            });
+        }
+
+        // Initial display of existing items and selling history
+        showExistingItems();
+        showSellingHistory();
+    });
+</script>
+
+
+<!-- Add this script tag to the head of your HTML file -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Sample data for existing items (replace with your actual data)
+        const existingItemsData = [
+            { imageSrc: 'pinktop.jpg', currentPrice: 15.00, biddingTime: 15 }, // Bidding time in hours
+            { imageSrc: 'blackbat.jpg', currentPrice: 20.00, biddingTime: 10 }, // Increased to 10 hours
+            { imageSrc: 'product.jpg', currentPrice: 19.99, biddingTime: 12 }, // Bidding time more than 8 hours
+            { imageSrc: 'brownpant.jpg', currentPrice: 30.00, biddingTime: 14 }, // Bidding time more than 8 hours
+            // Add more items as needed
+        ];
+
+        const sellingHistoryData = [
+            { imageSrc: 'blackdress.jpg', priceSold: 25.00, profit: 10.00 },
+            { imageSrc: 'whitedress.jpg', priceSold: 30.00, profit: 15.00 },
+            // Add more items as needed
+        ];
+
+        // Function to display existing items
+        function showExistingItems() {
+            const existingItemsSection = document.getElementById('existing-items-section');
+            existingItemsSection.innerHTML = ''; // Clear existing content
+
+            existingItemsData.forEach((item) => {
+                // Create a container for each item
+                const itemContainer = document.createElement('div');
+                itemContainer.classList.add('existing-item');
+
+                // Create an image element
+                const imgElement = document.createElement('img');
+                imgElement.src = item.imageSrc;
+                imgElement.alt = 'Item Image';
+
+                // Create a paragraph element for the current price
+                const currentPriceElement = document.createElement('p');
+                currentPriceElement.textContent = `Current Price: $${item.currentPrice.toFixed(2)}`;
+
+                // Create a paragraph element for the bidding time left
+                const biddingTimeLeftElement = document.createElement('p');
+                const biddingEndTime = new Date().getTime() + item.biddingTime * 60 * 60 * 1000; // Convert hours to milliseconds
+                updateBiddingTimeLeft(biddingEndTime, biddingTimeLeftElement);
+                setInterval(() => updateBiddingTimeLeft(biddingEndTime, biddingTimeLeftElement), 1000);
+
+                // Append elements to the item container
+                itemContainer.appendChild(imgElement);
+                itemContainer.appendChild(currentPriceElement);
+                itemContainer.appendChild(biddingTimeLeftElement);
+
+                // Append the item container to the existing items section
+                existingItemsSection.appendChild(itemContainer);
+            });
+        }
+
+        // Function to update the bidding time left
+        function updateBiddingTimeLeft(endTime, element) {
+            const currentTime = new Date().getTime();
+            const remainingTime = Math.max(0, endTime - currentTime);
+
+            const hours = Math.floor(remainingTime / (60 * 60 * 1000));
+            const minutes = Math.floor((remainingTime % (60 * 60 * 1000)) / (60 * 1000));
+            const seconds = Math.floor((remainingTime % (60 * 1000)) / 1000);
+
+            element.textContent = `Bidding Time Left: ${hours}h ${minutes}m ${seconds}s`;
+        }
+
+        // Function to display selling history
+        function showSellingHistory() {
+            const sellingHistorySection = document.getElementById('selling-history-section');
+            sellingHistorySection.innerHTML = ''; // Clear existing content
+
+            // Create a container for the selling history items
+            const sellingHistoryContainer = document.createElement('div');
+            sellingHistoryContainer.classList.add('selling-history-container');
+
+            sellingHistoryData.forEach((item) => {
+                // Create a container for each sold item
+                const soldItemContainer = document.createElement('div');
+                soldItemContainer.classList.add('sold-item');
+
+                // Create an image element
+                const soldImgElement = document.createElement('img');
+                soldImgElement.src = item.imageSrc;
+                soldImgElement.alt = 'Sold Item Image';
+
+                // Create paragraph elements for price sold and profit
+                const priceSoldElement = document.createElement('p');
+                priceSoldElement.textContent = `Price Sold: $${item.priceSold.toFixed(2)}`;
+
+                const profitElement = document.createElement('p');
+                profitElement.textContent = `Profit: $${item.profit.toFixed(2)}`;
+
+                // Append elements to the sold item container
+                soldItemContainer.appendChild(soldImgElement);
+                soldItemContainer.appendChild(priceSoldElement);
+                soldItemContainer.appendChild(profitElement);
+
+                // Append the sold item container to the selling history container
+                sellingHistoryContainer.appendChild(soldItemContainer);
+            });
+
+            // Append the selling history container to the selling history section
+            sellingHistorySection.appendChild(sellingHistoryContainer);
+        }
+
+        // Initial display of existing items and selling history
+        showExistingItems();
+        showSellingHistory();
+    });
+</script>
+
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap">
+    <title>Thriftique Seller Dashboard</title>
+</head>
+<body>
+<body style="background-color: #f0f0f0; background-image: url('bg_login.jpg'); background-size: cover; background-position: center;">
+
+    <header>
+        <h1>Seller Dashboard</h1>
+        <!-- Add navigation links as needed -->
+    </header>
+
+    <nav id="seller-nav">
+        <button onclick="showAddItem()">Add Item</button>
+        <button onclick="showExistingItems()">Existing Items</button>
+        <button onclick="showSellingHistory()">Selling History</button>
+    </nav>
+
+    <section id="add-item-section" class="dashboard-section">
+    <h2>Add New Item</h2>
+    <form id="add-item-form">
+        <label for="item-picture">Item Pictures:</label>
+        <input type="file" id="item-picture" name="item-picture" accept="image/*" multiple>
+        <br>
+
+        <label for="item-description">Item Description:</label>
+        <textarea id="item-description" name="item-description" rows="4" cols="50" placeholder="Enter item description"></textarea>
+        <br>
+
+        <label for="base-price">Base Price:</label>
+        <input type="number" id="base-price" name="base-price" min="0" step="0.01" placeholder="Enter base price">
+        <br>
+
+        <button type="submit">Submit</button>
+    </form>
+    </section>
+
+
+    <section id="existing-items-section" class="dashboard-section">
+        <h2>Your Existing Items</h2>
+	<p>All the items you have posted will appear here</p>
+    </section>
+
+    <section id="selling-history-section" class="dashboard-section">
+        <h2>Your Selling History</h2>
+        <p>Clothes you have sold will appear here</p>
+    </section>
+
+<!-- Add the Checkout button -->
+<button id="checkoutBtn">Log Out</button>
+
+<!-- Add the script for the Checkout button -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const checkoutBtn = document.getElementById('checkoutBtn');
+
+        checkoutBtn.addEventListener('click', () => {
+            // Redirect to the checkout page
+            window.location.href = 'Log2.html';
+        });
+    });
+</script>
+
+    <footer>
+        <!-- Footer content goes here -->
+    </footer>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
